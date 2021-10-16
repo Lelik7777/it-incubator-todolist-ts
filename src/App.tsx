@@ -21,8 +21,10 @@ function App() {
             <TodoList title={'what to learn'} tasks={tasks1}/>
             <TodoList title={'what to buy'} tasks={tasks1}/>
             <TodoList title={'what to read'} tasks={tasks1}/>
+        <NewApp/>
         </div>
     );
 }
 
 export default App;
+
