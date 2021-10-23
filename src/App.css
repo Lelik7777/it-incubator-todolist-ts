@@ -1,8 +1,38 @@
+html, body {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: Roboto, sans-serif;
+    background: url("https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg");
+}
+
 .App {
-  padding: 30px;
-  display: flex;
+    padding: 30px;
+    display: flex;
 }
 
 .App > div {
-  margin-right: 50px;
+    margin-right: 50px;
+}
+
+.todoList .input input {
+    border-top: none;
+}
+
+.todoList ul li {
+    margin: 10px;
+    list-style-type: none;
+}
+
+.todoList ul li button {
+    margin-left: 5px;
+    height: 20px;
+    background-color: yellow;
+    border-radius: 10px;
+}
+
+.todoList .buttonChange button {
+    margin-left: 5px;
+    padding: 5px;
+    border-radius: 10px;
 }

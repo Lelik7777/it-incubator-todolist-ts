@@ -4,24 +4,31 @@ import {TaskType} from './App';
 
 type TodoListType = {
     title: string;
-    tasks:TaskType[];
+    tasks: TaskType[];
+    removeTask: (id: number) => void;
 }
 
 function TodoList(props: TodoListType) {
     return (
-        <div className="TodoList">
+        <div className="todoList">
             <h1>{props.title}</h1>
-            <div>
+            <div className={'input'}>
 
                 <input type="text"/>
                 <button>+</button>
             </div>
             <ul>
-                <li><input type="checkbox" checked={props.tasks[0].isDone}/><span>{props.tasks[0].title}</span></li>
-                <li><input type="checkbox" checked={props.tasks[1].isDone}/><span>{props.tasks[1].title}</span></li>
-                <li><input type="checkbox" checked={props.tasks[2].isDone}/><span>{props.tasks[2].title}</span></li>
+                {
+                    props.tasks.map(x => {
+                        return <li>
+                            <input type="checkbox" checked={x.isDone}/>
+                            <span>{x.title}</span>
+                            <button onClick={() => props.removeTask(x.id)}>del</button>
+                        </li>
+                    })
+                }
             </ul>
-            <div>
+            <div className={'buttonChange'}>
                 <button>All</button>
                 <button>Active</button>
                 <button>Completed</button>
