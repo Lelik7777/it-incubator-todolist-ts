@@ -1,14 +1,19 @@
 import React from 'react';
-import {TaskType} from './App';
+import {FilterType, TaskType} from './App';
 
 
 type TodoListType = {
     title: string;
     tasks: TaskType[];
     removeTask: (id: number) => void;
+    changeStatusTasks: (s: FilterType) => void;
 }
 
-function TodoList(props: TodoListType) {
+
+ export function TodoList(props: TodoListType) {
+    const statusTasksAll = () => props.changeStatusTasks('all');
+    const statusTasksActive = () => props.changeStatusTasks('active');
+    const statusTasksCompleted = () => props.changeStatusTasks('completed');
     return (
         <div className="todoList">
             <h1>{props.title}</h1>
@@ -20,21 +25,20 @@ function TodoList(props: TodoListType) {
             <ul>
                 {
                     props.tasks.map(x => {
+                        const removeTask = () => props.removeTask(x.id);
                         return <li>
                             <input type="checkbox" checked={x.isDone}/>
                             <span>{x.title}</span>
-                            <button onClick={() => props.removeTask(x.id)}>del</button>
+                            <button onClick={removeTask}>del</button>
                         </li>
                     })
                 }
             </ul>
             <div className={'buttonChange'}>
-                <button>All</button>
-                <button>Active</button>
-                <button>Completed</button>
+                <button onClick={statusTasksAll}>All</button>
+                <button onClick={statusTasksActive}>Active</button>
+                <button onClick={statusTasksCompleted}>Completed</button>
             </div>
         </div>
     );
 }
-
-export default TodoList;

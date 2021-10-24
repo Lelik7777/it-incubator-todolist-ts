@@ -3,7 +3,7 @@ html, body {
     margin: 0;
     box-sizing: border-box;
     font-family: Roboto, sans-serif;
-    background: url("https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg");
+    background: no-repeat  url("https://www.industrialempathy.com/img/remote/ZiClJf-1920w.jpg");
 }
 
 .App {
@@ -14,7 +14,9 @@ html, body {
 .App > div {
     margin-right: 50px;
 }
-
+.todoList h1{
+    color: floralwhite;
+}
 .todoList .input input {
     border-top: none;
 }
@@ -22,6 +24,7 @@ html, body {
 .todoList ul li {
     margin: 10px;
     list-style-type: none;
+    color: #fff;
 }
 
 .todoList ul li button {
