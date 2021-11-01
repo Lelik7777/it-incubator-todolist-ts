@@ -8,32 +8,46 @@ type TodoListType = {
     removeTask: (id: string) => void;
     changeStatusTasks: (s: FilterType) => void;
     addTask: (t: string) => void;
+    filter: FilterType;
+    changeTaskStatus: (id: string, isDone: boolean) => void;
 }
 
 
-export function TodoList(props: TodoListType) {
+export function TodoList({tasks, changeStatusTasks, addTask, filter, ...props}: TodoListType) {
     const [title, setTitle] = useState<string>('');
+    const [error, setError] = useState<boolean>(false);
     const titleTrim = title.trim();
-    const statusTasksAll = () => props.changeStatusTasks('all');
-    const statusTasksActive = () => props.changeStatusTasks('active');
-    const statusTasksCompleted = () => props.changeStatusTasks('completed');
+    const statusTasksAll = () => changeStatusTasks('all');
+    const statusTasksActive = () => changeStatusTasks('active');
+    const statusTasksCompleted = () => changeStatusTasks('completed');
     const addTaskOnClick = () => {
         // debugger;
-        if (titleTrim)
-            props.addTask(titleTrim);
+        /* if (titleTrim)
+             props.addTask(titleTrim);
+         setTitle('');*/
+        titleTrim && addTask(titleTrim);
+       // titleTrim && setTitle('');
+        !titleTrim&&setError(true);
         setTitle('');
     }
     const onChangeInput = (ev: ChangeEvent<HTMLInputElement>) => {
         setTitle(ev.currentTarget.value);
+        setError(false);
     }
     const onEnterPress = (ev: KeyboardEvent<HTMLInputElement>) => {
         //title.trim()&&props.addTask(title.trim())
 
-        if (ev.key === 'Enter' && titleTrim) {
-            props.addTask(titleTrim);
-            setTitle('');
-        }
+        /* if (ev.key === 'Enter' && titleTrim) {
+             props.addTask(titleTrim);
+             setTitle('');
+         }*/
+        ev.key === 'Enter' && titleTrim && addTask(titleTrim);
+        ev.key === 'Enter' && titleTrim && setTitle('');
+        ev.key === 'Enter' && !titleTrim && setError(true);
     }
+    const className = filter === 'completed' ? 'active_filter' : '';
+    const className1 = filter === 'active' ? 'active_filter' : '';
+    const className2 = filter === 'all' ? 'active_filter' : '';
     return (
         <div className="todoList">
             <h1>{props.title}</h1>
@@ -44,16 +58,26 @@ export function TodoList(props: TodoListType) {
                        placeholder={'enter text'}
                        onChange={onChangeInput}
                        onKeyPress={onEnterPress}
+                       className={error?'error':''}
                 />
                 <button onClick={addTaskOnClick}>+</button>
+                {error && <p className={'error_message'}>Title is required</p>}
             </div>
             <ul>y
                 {
-                    props.tasks.map(x => {
+                    tasks.map(x => {
                         const removeTask = () => props.removeTask(x.id);
+                        const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+                            props.changeTaskStatus(x.id, e.currentTarget.checked);
+                        }
                         return (
-                            <li>
-                                <input type="checkbox" checked={x.isDone}/>
+                            <li className={x.isDone ? 'isDone' : ''}>
+                                <input
+                                    type="checkbox"
+                                    checked={x.isDone}
+                                    onChange={onChange}
+
+                                />
                                 <span>{x.title}</span>
                                 <button onClick={removeTask}>del</button>
                             </li>
@@ -62,9 +86,9 @@ export function TodoList(props: TodoListType) {
                 }
             </ul>
             <div className={'buttonChange'}>
-                <button onClick={statusTasksAll}>All</button>
-                <button onClick={statusTasksActive}>Active</button>
-                <button onClick={statusTasksCompleted}>Completed</button>
+                <button onClick={statusTasksAll} className={className2}>All</button>
+                <button onClick={statusTasksActive} className={className1}>Active</button>
+                <button onClick={statusTasksCompleted} className={className}>Completed</button>
             </div>
         </div>
     );

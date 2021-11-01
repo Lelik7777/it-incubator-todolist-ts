@@ -3,7 +3,7 @@ html, body {
     margin: 0;
     box-sizing: border-box;
     font-family: Roboto, sans-serif;
-    background: no-repeat  url("https://www.industrialempathy.com/img/remote/ZiClJf-1920w.jpg");
+    background: no-repeat url("https://www.industrialempathy.com/img/remote/ZiClJf-1920w.jpg");
 }
 
 .App {
@@ -14,9 +14,11 @@ html, body {
 .App > div {
     margin-right: 50px;
 }
-.todoList h1{
+
+.todoList h1 {
     color: floralwhite;
 }
+
 .todoList .input input {
     border-top: none;
 }
@@ -38,4 +40,22 @@ html, body {
     margin-left: 5px;
     padding: 5px;
     border-radius: 10px;
+}
+
+.active_filter {
+    background-color: orange;
+}
+
+.isDone {
+    opacity: 0.8;
+}
+
+.error {
+    border: 5px solid red;
+}
+
+.error_message {
+    color: greenyellow;
+    margin: 0;
+    text-align: center;
 }
