@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './App.css';
 import {TodoList} from './TodoList';
 import {v1} from 'uuid';
+import {AddItemForm} from './AddItemForm';
 
 
 export type TaskType = {
@@ -79,6 +80,12 @@ function App() {
         setTodoLists([...todoLists, newList]);
         setTasks({...tasks, [newList.id]: []})
     }
+    const changeTitleTask = (title: string, idL: string, id: string) => {
+        setTasks({...tasks, [idL]: tasks[idL].map(x => x.id === id ? {...x, title} : x)});
+    }
+    const changeTitleList = (title: string, idL: string) => {
+        setTodoLists(todoLists.map(x => x.id === idL ? {...x, title} : x));
+    }
     const mappedTodoLists = todoLists.map(x =>
         <TodoList
             idL={x.id}
@@ -92,12 +99,15 @@ function App() {
             title={x.title}
             removeList={removeList}
             addList={addList}
+            changeTitleTask={changeTitleTask}
+            changeTitleList={changeTitleList}
         />
     );
 
 
     return (
         <div className="App">
+            <AddItemForm addItem={addList}/>
             {mappedTodoLists}
         </div>
     )

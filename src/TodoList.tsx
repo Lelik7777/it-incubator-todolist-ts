@@ -1,5 +1,7 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent} from 'react';
 import {FilterType, TaskType} from './App';
+import {AddItemForm} from './AddItemForm';
+import {EditableSpan} from './EditableSpan';
 
 
 type TodoListType = {
@@ -13,6 +15,8 @@ type TodoListType = {
     changeTaskStatus: (id: string, isDone: boolean, idL: string) => void;
     removeList: (idL: string) => void;
     addList: (t: string) => void;
+    changeTitleTask: (title: string, idL: string, id: string) => void;
+    changeTitleList: (title: string, idL: string) => void;
 }
 
 
@@ -24,27 +28,16 @@ export function TodoList({
                              filter,
                              removeList,
                              addList,
+                             changeTitleTask,
+                             changeTitleList,
                              ...props
                          }: TodoListType) {
-    const [title, setTitle] = useState<string>('');
-    const [error, setError] = useState<boolean>(false);
-    const titleTrim = title.trim();
+
     const statusTasksAll = () => changeStatusTasks('all', idL);
     const statusTasksActive = () => changeStatusTasks('active', idL);
     const statusTasksCompleted = () => changeStatusTasks('completed', idL);
-    const addTaskOnClick = () => {
-        titleTrim && addTask(titleTrim, idL);
-        !titleTrim && setError(true);
-        setTitle('');
-    }
-    const onChangeInput = (ev: ChangeEvent<HTMLInputElement>) => {
-        setTitle(ev.currentTarget.value);
-        setError(false);
-    }
-    const onEnterPress = (ev: KeyboardEvent<HTMLInputElement>) => {
-        ev.key === 'Enter' && titleTrim && addTask(titleTrim, idL);
-        ev.key === 'Enter' && titleTrim && setTitle('');
-        ev.key === 'Enter' && !titleTrim && setError(true);
+    const addTaskL = (t: string) => {
+        addTask(t, idL)
     }
     const className = filter === 'completed' ? 'active_filter' : '';
     const className1 = filter === 'active' ? 'active_filter' : '';
@@ -53,20 +46,13 @@ export function TodoList({
     return (
         <div className="todoList">
             <h1>
-                {props.title}
+
+                <EditableSpan title={props.title} callBack={(t: string) => changeTitleList(idL, t)}/>
                 <button onClick={onClick}>x</button>
             </h1>
             <div className={'input'}>
+                <AddItemForm addItem={addTaskL}/>
 
-                <input value={title}
-                       type="text"
-                       placeholder={'enter text'}
-                       onChange={onChangeInput}
-                       onKeyPress={onEnterPress}
-                       className={error ? 'error' : ''}
-                />
-                <button onClick={addTaskOnClick}>+</button>
-                {error && <p className={'error_message'}>Title is required</p>}
             </div>
             <ul>
                 {
@@ -75,6 +61,7 @@ export function TodoList({
                         const onChange = (e: ChangeEvent<HTMLInputElement>) => {
                             props.changeTaskStatus(x.id, e.currentTarget.checked, idL);
                         }
+
                         return (
                             <li className={x.isDone ? 'isDone' : ''}>
                                 <input
@@ -83,7 +70,7 @@ export function TodoList({
                                     onChange={onChange}
 
                                 />
-                                <span>{x.title}</span>
+                                <EditableSpan title={x.title} callBack={(t: string) => changeTitleTask(x.id, t, idL)}/>
                                 <button onClick={removeTask}>del</button>
                             </li>
                         )
@@ -98,3 +85,4 @@ export function TodoList({
         </div>
     );
 }
+
