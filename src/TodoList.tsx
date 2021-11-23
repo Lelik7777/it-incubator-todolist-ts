@@ -2,6 +2,8 @@ import React, {ChangeEvent} from 'react';
 import {FilterType, TaskType} from './App';
 import {AddItemForm} from './AddItemForm';
 import {EditableSpan} from './EditableSpan';
+import {Button, ButtonGroup, Checkbox, IconButton, List, ListItem, Typography} from '@material-ui/core';
+import {Delete} from '@material-ui/icons';
 
 
 type TodoListType = {
@@ -14,7 +16,6 @@ type TodoListType = {
     filter: FilterType;
     changeTaskStatus: (id: string, isDone: boolean, idL: string) => void;
     removeList: (idL: string) => void;
-    addList: (t: string) => void;
     changeTitleTask: (title: string, idL: string, id: string) => void;
     changeTitleList: (title: string, idL: string) => void;
 }
@@ -27,7 +28,6 @@ export function TodoList({
                              addTask,
                              filter,
                              removeList,
-                             addList,
                              changeTitleTask,
                              changeTitleList,
                              ...props
@@ -43,19 +43,23 @@ export function TodoList({
     const className1 = filter === 'active' ? 'active_filter' : '';
     const className2 = filter === 'all' ? 'active_filter' : '';
     const onClick = () => removeList(idL);
-    const callBack = (t: string) => changeTitleList(t,idL);
+    const callBack = (t: string) => changeTitleList(t, idL);
     return (
         <div className="todoList">
-            <h1>
-
+            <Typography variant={'h5'}
+                        style={{color: 'blue'}}
+                        align={'center'}
+            >
                 <EditableSpan title={props.title} callBack={callBack}/>
-                <button onClick={onClick}>x</button>
-            </h1>
+                <IconButton onClick={onClick} size={'small'}>
+                    <Delete/>
+                </IconButton>
+            </Typography>
             <div className={'input'}>
                 <AddItemForm addItem={addTaskL}/>
 
             </div>
-            <ul>
+            <List>
                 {
                     tasks.map(x => {
                         const removeTask = () => props.removeTask(x.id, idL);
@@ -63,26 +67,37 @@ export function TodoList({
                             props.changeTaskStatus(x.id, e.currentTarget.checked, idL);
                         }
 
-                        const callBack1 = (t: string) => changeTitleTask(t,idL,x.id);
+                        const callBack1 = (t: string) => changeTitleTask(t, idL, x.id);
                         return (
-                            <li className={x.isDone ? 'isDone' : ''}>
-                                <input
-                                    type="checkbox"
-                                    checked={x.isDone}
+                            <ListItem className={x.isDone ? 'isDone' : ''}
+                                      divider={true}
+                            >
+                                <Checkbox
                                     onChange={onChange}
-
+                                    checked={x.isDone}
+                                    color={'primary'}
                                 />
                                 <EditableSpan title={x.title} callBack={callBack1}/>
-                                <button onClick={removeTask}>del</button>
-                            </li>
+                                <IconButton onClick={removeTask} size={'small'} color={'primary'}>
+                                    <Delete/>
+                                </IconButton>
+                            </ListItem>
                         )
                     })
                 }
-            </ul>
+            </List>
             <div className={'buttonChange'}>
-                <button onClick={statusTasksAll} className={className2}>All</button>
-                <button onClick={statusTasksActive} className={className1}>Active</button>
-                <button onClick={statusTasksCompleted} className={className}>Completed</button>
+
+                <ButtonGroup variant={'contained'}
+                             size={'small'}
+                >
+                    <Button onClick={statusTasksAll}
+                            color={filter === 'all' ? 'secondary' : 'primary'}>All</Button>
+                    <Button onClick={statusTasksActive}
+                            color={filter === 'active' ? 'secondary' : 'primary'}>Active</Button>
+                    <Button onClick={statusTasksCompleted}
+                            color={filter === 'completed' ? 'secondary' : 'primary'}>Completed</Button>
+                </ButtonGroup>
             </div>
         </div>
     );
