@@ -9,7 +9,7 @@ export const EditableSpan = ({title, callBack, ...props}: PropsType) => {
     const [value, setValue] = useState<string>('');
     const onEdit = () => {
         setEdit(true);
-        setValue(title);
+        //setValue(title);
     }
     const offEdit = () => {
         setEdit(false);

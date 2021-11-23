@@ -43,11 +43,12 @@ export function TodoList({
     const className1 = filter === 'active' ? 'active_filter' : '';
     const className2 = filter === 'all' ? 'active_filter' : '';
     const onClick = () => removeList(idL);
+    const callBack = (t: string) => changeTitleList(t,idL);
     return (
         <div className="todoList">
             <h1>
 
-                <EditableSpan title={props.title} callBack={(t: string) => changeTitleList(idL, t)}/>
+                <EditableSpan title={props.title} callBack={callBack}/>
                 <button onClick={onClick}>x</button>
             </h1>
             <div className={'input'}>
@@ -62,6 +63,7 @@ export function TodoList({
                             props.changeTaskStatus(x.id, e.currentTarget.checked, idL);
                         }
 
+                        const callBack1 = (t: string) => changeTitleTask(t,idL,x.id);
                         return (
                             <li className={x.isDone ? 'isDone' : ''}>
                                 <input
@@ -70,7 +72,7 @@ export function TodoList({
                                     onChange={onChange}
 
                                 />
-                                <EditableSpan title={x.title} callBack={(t: string) => changeTitleTask(x.id, t, idL)}/>
+                                <EditableSpan title={x.title} callBack={callBack1}/>
                                 <button onClick={removeTask}>del</button>
                             </li>
                         )
