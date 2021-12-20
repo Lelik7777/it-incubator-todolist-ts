@@ -27,7 +27,7 @@ export const todoListsReducer = (state=initialState, action: ActionType): TodoLi
         case 'REMOVE-TODOLIST':
             return state.filter(x => x.id !== action.id);
         case 'ADD-TODOLIST':
-            const newList: TodoListType = {id: v1(), title: action.title, filter: 'all'};
+            const newList: TodoListType = {id:action.id, title: action.title, filter: 'all'};
             return [...state, newList];
         case 'CHANGE-TODOLIST-TITLE':
             return state.map(x => x.id === action.id ? {...x, title: action.title} : x);
