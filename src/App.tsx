@@ -45,9 +45,7 @@ function App() {
     });
 
 
-    const changeStatusTasks = (filter: FilterType, idL: string) => {
-        setTodoLists(todoLists.map(x => x.id === idL ? {...x, filter} : x));
-    }
+
 
     const getFilterTasks = (filter: FilterType, idL: string) => {
         switch (filter) {
@@ -73,6 +71,9 @@ function App() {
     const changeTaskStatus = (id: string, isDone: boolean, idL: string) => {
         setTasks({...tasks, [idL]: tasks[idL].map(x => x.id === id ? {...x, isDone} : x)});
     }
+    const changeTitleTask = (title: string, idL: string, id: string) => {
+        setTasks({...tasks, [idL]: tasks[idL].map(x => x.id === id ? {...x, title} : x)});
+    }
     const removeList = (idL: string) => {
         setTodoLists(todoLists.filter(x => x.id !== idL));
         // delete tasks[idL];
@@ -82,11 +83,12 @@ function App() {
         setTodoLists([...todoLists, newList]);
         setTasks({...tasks, [newList.id]: []})
     }
-    const changeTitleTask = (title: string, idL: string, id: string) => {
-        setTasks({...tasks, [idL]: tasks[idL].map(x => x.id === id ? {...x, title} : x)});
-    }
+
     const changeTitleList = (title: string, idL: string) => {
         setTodoLists(todoLists.map(x => x.id === idL ? {...x, title} : x));
+    }
+    const changeStatusTasks = (filter: FilterType, idL: string) => {
+        setTodoLists(todoLists.map(x => x.id === idL ? {...x, filter} : x));
     }
     const mappedTodoLists = todoLists.map(x =>
         <Grid item key={x.id}>
