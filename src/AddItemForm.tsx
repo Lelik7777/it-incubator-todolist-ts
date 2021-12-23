@@ -1,11 +1,12 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {IconButton, TextField} from '@material-ui/core';
-import {Add, AddBox, Delete} from '@material-ui/icons';
+import {AddBox} from '@material-ui/icons';
 
 type PropsType = {
     addItem: (t: string) => void;
 }
-export const AddItemForm = ({addItem, ...props}: PropsType) => {
+export const AddItemForm =React.memo( ({addItem, ...props}: PropsType) => {
+    console.log('addItemForm')
     const [title, setTitle] = useState<string>('');
     const [error, setError] = useState<boolean>(false);
     const onChangeInput = (ev: ChangeEvent<HTMLInputElement>) => {
@@ -48,4 +49,4 @@ export const AddItemForm = ({addItem, ...props}: PropsType) => {
             {/* {error && <p className={'error_message'}>Title is required</p>}*/}
         </div>
     )
-}
+});

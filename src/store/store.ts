@@ -1,9 +1,7 @@
-
-
 // объединяя reducer-ы с помощью combineReducers,
 // мы задаём структуру нашего единственного объекта-состояния
 import {tasksReducer} from './tasksReducer';
-import {combineReducers, createStore, Store} from 'redux';
+import {combineReducers, createStore} from 'redux';
 import {todoListsReducer} from './todoLists-reducer';
 
 const rootReducer = combineReducers({
@@ -29,4 +27,4 @@ const rootReducer = combineReducers({
 })
 // непосредственно*/
 //@ts-ignore
-window.store=store;
+//window.store=store;

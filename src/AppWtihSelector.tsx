@@ -1,7 +1,6 @@
-import React, {useState} from 'react';
+import React, {useCallback} from 'react';
 import './App.css';
 import {TodoList} from './TodoList';
-import {v1} from 'uuid';
 import {AddItemForm} from './AddItemForm';
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from '@material-ui/core';
 import {Menu} from '@material-ui/icons';
@@ -27,6 +26,7 @@ export type TodoListType = {
 }
 
 function AppWithSelector() {
+    console.log('App')
     const todoLists = useSelector((state: AppRootStateType) => state.todolists);
     const tasks = useSelector((state: AppRootStateType) => state.tasks);
     const dispatch = useDispatch();
@@ -45,9 +45,9 @@ function AppWithSelector() {
     const removeTask = (id: string, idL: string) => {
         dispatch(removeTaskAC(id, idL));
     }
-    const addTask = (title: string, idL: string) => {
+    const addTask =useCallback( (title: string, idL: string) => {
         dispatch(addTaskAC(title, idL));
-    }
+    },[dispatch])
     const changeTaskStatus = (id: string, isDone: boolean, idL: string) => {
         dispatch(changeTaskStatusAC(id, isDone, idL));
     }
@@ -57,9 +57,9 @@ function AppWithSelector() {
     const removeList = (idL: string) => {
         dispatch(removeTodoListAC(idL));
     }
-    const addList = (title: string) => {
+    const addList =useCallback( (title: string) => {
         dispatch(addTodoListAC(title));
-    }
+    },[dispatch])
 
     const changeTitleList = (title: string, idL: string) => {
         dispatch(changeTodoListTitleAC(idL, title));

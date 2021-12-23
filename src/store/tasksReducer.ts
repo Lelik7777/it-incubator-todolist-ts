@@ -30,7 +30,7 @@ type ActionType =
 export const tasksReducer = (state=initialState, action: ActionType): TasksType => {
     switch (action.type) {
         case 'REMOVE-TASK':
-            return {...state, [action.idL]: state[action.idL].filter(x => x.id != action.id)};
+            return {...state, [action.idL]: state[action.idL].filter(x => x.id !== action.id)};
         case 'ADD-TASK':
             return {...state, [action.idL]: [{id: v1(), title: action.title, isDone: false}, ...state[action.idL]]};
         case 'CHANGE-TASK-STATUS':
@@ -43,10 +43,10 @@ export const tasksReducer = (state=initialState, action: ActionType): TasksType 
         case 'ADD-TODOLIST':
             return {...state, [action.id]: []};
         case 'REMOVE-TODOLIST':
-            let newState = {...state};
-            delete newState[action.id];
-            //let{[action.id]:[],...newState1}={...state}
-            return newState;
+           /* let newState = {...state};
+            delete newState[action.id];*/
+            let{[action.id]:[],...newState1}={...state}
+            return newState1;
         default:
             return state;
     }
