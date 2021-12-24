@@ -1,9 +1,10 @@
-import React, {ChangeEvent, useCallback} from 'react';
+import React, {useCallback} from 'react';
 import {FilterType, TaskType} from './App';
 import {AddItemForm} from './AddItemForm';
 import {EditableSpan} from './EditableSpan';
-import {Button, ButtonGroup, Checkbox, IconButton, List, ListItem, Typography} from '@material-ui/core';
+import {Button, ButtonGroup, IconButton, List, Typography} from '@material-ui/core';
 import {Delete} from '@material-ui/icons';
+import {Task} from './Task';
 
 
 type TodoListType = {
@@ -59,29 +60,7 @@ export const TodoList=({
             </div>
             <List>
                 {
-                    tasks.map(x => {
-                        const removeTask = () => props.removeTask(x.id, idL);
-                        const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-                            props.changeTaskStatus(x.id, e.currentTarget.checked, idL);
-                        }
-
-                        const callBack1 = (t: string) => changeTitleTask(t, idL, x.id);
-                        return (
-                            <ListItem className={x.isDone ? 'isDone' : ''}
-                                      divider={true}
-                            >
-                                <Checkbox
-                                    onChange={onChange}
-                                    checked={x.isDone}
-                                    color={'primary'}
-                                />
-                                <EditableSpan title={x.title} callBack={callBack1}/>
-                                <IconButton onClick={removeTask} size={'small'} color={'primary'}>
-                                    <Delete/>
-                                </IconButton>
-                            </ListItem>
-                        )
-                    })
+                    tasks.map(x =><Task idL={idL} id={x.id} key={x.id}/>)
                 }
             </List>
             <div className={'buttonChange'}>
